@@ -20,7 +20,7 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nom;
+    private String name;
     private String email;
 
     @Enumerated(EnumType.STRING)
