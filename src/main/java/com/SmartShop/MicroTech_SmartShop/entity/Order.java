@@ -24,7 +24,7 @@ public class Order {
     private LocalDateTime dateCreation;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @JoinColumn(name = "client_id")
     private Client client;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
