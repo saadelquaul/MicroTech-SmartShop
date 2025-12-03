@@ -37,12 +37,9 @@ public class DataInitializer implements CommandLineRunner {
 
 
     private void seedUsers() {
-        userRepository.saveAll(Arrays.asList(
-                User.builder().username("admin").password(PasswordUtil.hash("admin123")).role(UserRole.ADMIN).build(),
-                User.builder().username("ahmed").password(PasswordUtil.hash("client123")).role(UserRole.CLIENT).build(),
-                User.builder().username("saad").password(PasswordUtil.hash("client123")).role(UserRole.CLIENT).build(),
-                User.builder().username("imad").password(PasswordUtil.hash("client123")).role(UserRole.CLIENT).build(),
-                User.builder().username("sara").password(PasswordUtil.hash("client123")).role(UserRole.CLIENT).build()));
+        userRepository.save(
+                User.builder().username("admin").password(PasswordUtil.hash("admin123")).role(UserRole.ADMIN).build()
+        );
     }
 
 
