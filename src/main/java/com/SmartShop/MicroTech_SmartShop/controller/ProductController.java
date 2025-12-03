@@ -1,11 +1,18 @@
 package com.SmartShop.MicroTech_SmartShop.controller;
 
 
+import com.SmartShop.MicroTech_SmartShop.dto.request.ProductRequestDto;
+import com.SmartShop.MicroTech_SmartShop.dto.response.ProductResponseDto;
 import com.SmartShop.MicroTech_SmartShop.enums.UserRole;
 import com.SmartShop.MicroTech_SmartShop.exception.BusinessException;
 import com.SmartShop.MicroTech_SmartShop.service.ProductService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +35,13 @@ public class ProductController {
         if (role != UserRole.ADMIN) {
             throw new BusinessException("Access Denied: Admin privileges required");
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductResponseDto> createProduct(
+            @Valid @RequestBody ProductRequestDto dto,
+            HttpSession session) {
+        checkAdmin(session);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(dto));
     }
 }
