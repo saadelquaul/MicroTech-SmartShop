@@ -50,4 +50,10 @@ public class ProductController {
         checkAdmin(session);
         return ResponseEntity.ok(productService.updateProduct(id, dto));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id, HttpSession session) {
+        checkAdmin(session);
+        return ResponseEntity.ok(productService.deleteProduct(id));
+    }
 }
