@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> hundleBusinessException(BusinessException ex, HttpServletRequest request) {
-        return buildResponse(HttpStatus.UNPROCESSABLE_CONTENT, ex.getMessage(), request);
+        return buildResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage(), request);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

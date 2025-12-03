@@ -2,9 +2,7 @@ package com.SmartShop.MicroTech_SmartShop.entity;
 
 import com.SmartShop.MicroTech_SmartShop.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,6 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Setter
+@Getter
 public class Order {
 
     @Id
@@ -32,7 +32,7 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal subtotal; // HT
+    private BigDecimal subTotal; // HT
 
     @Column(precision = 10, scale = 2)
     private BigDecimal discountAmount; // Remise

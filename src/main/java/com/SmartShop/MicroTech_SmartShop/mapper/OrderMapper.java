@@ -5,16 +5,48 @@ import com.SmartShop.MicroTech_SmartShop.dto.response.OrderItemResponseDto;
 import com.SmartShop.MicroTech_SmartShop.dto.response.OrderResponseDto;
 import com.SmartShop.MicroTech_SmartShop.entity.Order;
 import com.SmartShop.MicroTech_SmartShop.entity.OrderItem;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface OrderMapper {
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    @Mapping(target = "clientName", source = "client.name")
-    @Mapping(target = "items", source = "orderItems")
-    OrderResponseDto toResponse(Order order);
+@Component
+public class OrderMapper {
 
-    @Mapping(target = "productName", source = "product.name")
-    OrderItemResponseDto toItemResponse(OrderItem item);
+    public OrderResponseDto toResponse (Order order)
+    {
+        if (order == null) return null;
+
+        List<OrderItemResponseDto> items = order.getOrderItems() == null ? Collections.emptyList() :
+                order.getOrderItems().stream().map(this::toItemDto)
+                        .collect(Collectors.toList());
+
+        return OrderResponseDto.builder()
+                .id(order.getId())
+                .dateCreation(order.getDateCreation())
+                .clientName(order.getClient().getName() == null ? null : order.getClient().getName())
+                .status(order.getStatus())
+                .subTotal(order.getSubTotal())
+                .discountAmount(order.getDiscountAmount())
+                .taxAmount(order.getTaxAmount())
+                .totalAmount(order.getTotalAmount())
+                .remainingAmount(order.getRemainingAmount())
+                .items(items)
+                .build();
+    }
+
+
+    private OrderItemResponseDto toItemDto(OrderItem item) {
+        if (item == null) return null;
+
+
+        return OrderItemResponseDto.builder()
+                .productName(item.getProduct() == null ? null : item.getProduct().getName())
+                .quantity(item.getQuantity())
+                .unitPrice(item.getUnitPrice())
+                .totalLine(item.getTotalPrice())
+                .build();
+    }
 }

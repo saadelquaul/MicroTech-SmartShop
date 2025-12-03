@@ -1,11 +1,15 @@
 package com.SmartShop.MicroTech_SmartShop.dto.response;
 
 
-import com.SmartShop.MicroTech_SmartShop.entity.User;
-import com.SmartShop.MicroTech_SmartShop.enums.UserRole;
-import lombok.Data;
 
-@Data
+import com.SmartShop.MicroTech_SmartShop.enums.UserRole;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@Builder
 public class AuthResponse {
 
     private Long userId;
