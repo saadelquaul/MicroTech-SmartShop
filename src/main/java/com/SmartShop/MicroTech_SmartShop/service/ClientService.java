@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,5 +76,22 @@ public class ClientService {
         return clientMapper.toResponse(clientRepository.save(client));
     }
 
-    
+    public List<ClientResponseDto> getAllClients() {
+        return clientRepository.findAll().stream()
+                .map(clientMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    public ClientResponseDto getClientById(Long id) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
+        return clientMapper.toResponse(client);
+    }
+
+    public ClientResponseDto getMyProfile(Long userId) {
+        Client client = clientRepository.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Client profile not found for this user"));
+        return clientMapper.toResponse(client);
+    }
+
 }
