@@ -2,9 +2,14 @@ package com.SmartShop.MicroTech_SmartShop.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
+@Builder
 public class OrderItemRequestDto {
     @NotNull(message = "Product ID is required")
     private Long productId;

@@ -1,11 +1,18 @@
 package com.SmartShop.MicroTech_SmartShop.dto.response;
 
 import com.SmartShop.MicroTech_SmartShop.enums.OrderStatus;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+@Builder
+@Setter
+@Getter
 public class OrderResponseDto {
 
     private Long id;

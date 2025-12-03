@@ -1,10 +1,14 @@
 package com.SmartShop.MicroTech_SmartShop.dto.response;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Data
+@Builder
+@Setter
+@Getter
 public class ProductResponseDto {
     private Long id;
     private String name;
