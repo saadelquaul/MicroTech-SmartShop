@@ -32,7 +32,7 @@ public class Order {
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal subtotal; // HT
+    private BigDecimal subTotal; // HT
 
     @Column(precision = 10, scale = 2)
     private BigDecimal discountAmount; // Remise
