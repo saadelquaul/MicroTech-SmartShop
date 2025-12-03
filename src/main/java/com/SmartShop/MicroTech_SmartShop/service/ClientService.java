@@ -8,6 +8,7 @@ import com.SmartShop.MicroTech_SmartShop.entity.User;
 import com.SmartShop.MicroTech_SmartShop.enums.CustomerTier;
 import com.SmartShop.MicroTech_SmartShop.enums.UserRole;
 import com.SmartShop.MicroTech_SmartShop.exception.BusinessException;
+import com.SmartShop.MicroTech_SmartShop.exception.ResourceNotFoundException;
 import com.SmartShop.MicroTech_SmartShop.mapper.ClientMapper;
 import com.SmartShop.MicroTech_SmartShop.repository.ClientRepository;
 import com.SmartShop.MicroTech_SmartShop.repository.UserRepository;
@@ -55,4 +56,23 @@ public class ClientService {
 
         return clientMapper.toResponse(savedClient);
     }
+
+    @Transactional
+    public ClientResponseDto updateClient(Long id, ClientRequestDto dto) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
+
+
+        client.setName(dto.getName());
+
+
+        if (!client.getEmail().equals(dto.getEmail()) && clientRepository.existsByEmail(dto.getEmail())) {
+            throw new BusinessException("Email already taken");
+        }
+        client.setEmail(dto.getEmail());
+
+        return clientMapper.toResponse(clientRepository.save(client));
+    }
+
+    
 }
