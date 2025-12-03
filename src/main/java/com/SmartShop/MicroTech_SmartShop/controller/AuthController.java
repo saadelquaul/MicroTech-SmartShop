@@ -4,7 +4,7 @@ package com.SmartShop.MicroTech_SmartShop.controller;
 import com.SmartShop.MicroTech_SmartShop.dto.request.LoginRequest;
 import com.SmartShop.MicroTech_SmartShop.dto.response.AuthResponse;
 import com.SmartShop.MicroTech_SmartShop.entity.User;
-import com.SmartShop.MicroTech_SmartShop.service.impl.AuthService;
+import com.SmartShop.MicroTech_SmartShop.service.AuthService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -19,4 +19,5 @@ public class ClientResponseDto {
     private CustomerTier tier;
     private BigDecimal totalSpent;
     private Integer totalOrders;
+    private String username;
 }
