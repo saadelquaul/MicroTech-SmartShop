@@ -34,6 +34,14 @@ public class ClientController {
         return ResponseEntity.ok(clientService.getAllClients());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientResponseDto> getClientById(@PathVariable Long id, HttpSession session) {
+        checkAdmin(session);
+        return ResponseEntity.ok(clientService.getClientById(id));
+    }
+
+    
+
 
     private void checkAdmin(HttpSession session) {
         UserRole role = (UserRole) session.getAttribute("USER_ROLE");
