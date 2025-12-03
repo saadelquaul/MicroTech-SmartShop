@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public AuthResponse toDTO (User user) {
+    public AuthResponse toResponse (User user) {
         if (user == null) return null;
 
         return AuthResponse.builder()

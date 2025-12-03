@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Component
 public class OrderMapper {
 
-    public OrderResponseDto toDto (Order order)
+    public OrderResponseDto toResponse (Order order)
     {
         if (order == null) return null;
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductMapper {
 
-    public ProductResponseDto toDto (Product product) {
+    public ProductResponseDto toResponse (Product product) {
         if (product == null) return null;
 
         return ProductResponseDto.builder()

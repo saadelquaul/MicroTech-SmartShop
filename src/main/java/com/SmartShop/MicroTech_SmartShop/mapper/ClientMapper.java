@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientMapper {
 
-    public ClientResponseDto toDTO(Client client) {
+    public ClientResponseDto toResponse (Client client) {
         if (client == null) return null;
 
         return ClientResponseDto.builder()
