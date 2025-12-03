@@ -40,7 +40,11 @@ public class ClientController {
         return ResponseEntity.ok(clientService.getClientById(id));
     }
 
-    
+    @PutMapping("/{id}")
+    public ResponseEntity<ClientResponseDto> updateClient(@PathVariable Long id, @Valid @RequestBody ClientRequestDto dto, HttpSession session) {
+        checkAdmin(session);
+        return ResponseEntity.ok(clientService.updateClient(id, dto));
+    }
 
 
     private void checkAdmin(HttpSession session) {
