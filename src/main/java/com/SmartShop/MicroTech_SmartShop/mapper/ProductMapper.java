@@ -5,13 +5,32 @@ import com.SmartShop.MicroTech_SmartShop.dto.response.ProductResponseDto;
 import com.SmartShop.MicroTech_SmartShop.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface ProductMapper {
+@Component
+public class ProductMapper {
 
-    ProductResponseDto toResponse(Product product);
+    public ProductResponseDto toDto (Product product) {
+        if (product == null) return null;
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "isDeleted", ignore = true)
-    Product toEntity(ProductRequestDto dto);
+        return ProductResponseDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .price(product.getUnitPrice())
+                .stock(product.getStockQuantity())
+                .isDeleted(product.getIsDeleted())
+                .build();
+    }
+
+    public Product toEntity (ProductRequestDto dto) {
+        if ( dto == null) return null;
+
+        return Product.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .unitPrice(dto.getPrice())
+                .stockQuantity(dto.getStock())
+                .isDeleted(false)
+                .build();
+    }
 }
