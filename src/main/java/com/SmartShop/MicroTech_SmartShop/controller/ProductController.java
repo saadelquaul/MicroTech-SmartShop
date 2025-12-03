@@ -64,5 +64,10 @@ public class ProductController {
         checkLogin(session);
         return ResponseEntity.ok(productService.getAllProducts());
     }
-    
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id, HttpSession session) {
+        checkLogin(session);
+        return ResponseEntity.ok(productService.getProductById(id));
+    }
 }
