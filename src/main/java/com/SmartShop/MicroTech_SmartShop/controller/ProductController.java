@@ -52,7 +52,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id, HttpSession session) {
+    public ResponseEntity<ProductResponseDto> deleteProduct(@PathVariable Long id, HttpSession session) {
         checkAdmin(session);
         return ResponseEntity.ok(productService.deleteProduct(id));
     }
