@@ -39,6 +39,8 @@ public class Payment {
     private LocalDateTime paymentDate;
     private LocalDateTime encashmentDate;
 
+    private String reference;
+
 
 
 }
