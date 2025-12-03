@@ -22,5 +22,11 @@ public class ProductController {
         }
     }
 
-
+    private void checkAdmin(HttpSession session) {
+        checkLogin(session);
+        UserRole role = (UserRole) session.getAttribute("USER_ROLE");
+        if (role != UserRole.ADMIN) {
+            throw new BusinessException("Access Denied: Admin privileges required");
+        }
+    }
 }
