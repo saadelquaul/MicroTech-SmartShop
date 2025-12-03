@@ -12,7 +12,10 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 public class ProductRequestDto {
-    
+
+
+    private Long id;
+
     @NotBlank(message = "Product name is required")
     private String name;
 
