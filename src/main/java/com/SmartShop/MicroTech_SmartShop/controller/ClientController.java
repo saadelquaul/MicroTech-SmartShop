@@ -54,4 +54,16 @@ public class ClientController {
         }
     }
 
+
+    @GetMapping("/profile")
+    public ResponseEntity<ClientResponseDto> getMyProfile(HttpSession session) {
+        Long userId = (Long) session.getAttribute("USER_ID");
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.ok(clientService.getMyProfile(userId));
+    }
+
 }
