@@ -34,6 +34,13 @@ public class OrderController {
         return ResponseEntity.ok(orderService.confirmOrder(id));
     }
 
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancelOrder(@PathVariable Long id, HttpSession session) {
+        checkAdmin(session);
+        orderService.cancelOrder(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
     private void checkLogin(HttpSession session) {
         if (session.getAttribute("USER_ID") == null) throw new BusinessException("Unauthorized");
