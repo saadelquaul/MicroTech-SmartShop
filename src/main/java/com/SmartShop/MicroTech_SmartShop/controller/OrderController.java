@@ -8,9 +8,12 @@ import com.SmartShop.MicroTech_SmartShop.service.OrderService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -68,5 +71,15 @@ public class OrderController {
     private void checkAdmin(HttpSession session) {
         checkLogin(session);
         if (session.getAttribute("USER_ROLE") != UserRole.ADMIN) throw new BusinessException("Admin only");
+    }
+
+
+    @GetMapping("/history")
+    public ResponseEntity<List<OrderResponseDto>> getMyHistory(HttpSession session) {
+        checkLogin(session);
+        Long clientId = (Long) session.getAttribute("CLIENT_ID");
+        if (clientId == null) throw new BusinessException("Client profile not found");
+
+        return ResponseEntity.ok(orderService.getClientOrders(clientId));
     }
 }
