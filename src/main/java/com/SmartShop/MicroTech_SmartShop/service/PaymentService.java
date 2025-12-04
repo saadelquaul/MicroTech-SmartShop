@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -69,10 +71,16 @@ public class PaymentService {
 
         Payment savedPayment = paymentRepository.save(payment);
 
-        
+
         order.setRemainingAmount(order.getRemainingAmount().subtract(dto.getAmount()));
         orderRepository.save(order);
 
         return paymentMapper.toResponse(savedPayment);
+    }
+
+    public List<PaymentResponseDto> getPaymentsByOrder(Long orderId) {
+        return paymentRepository.findByOrderId(orderId).stream()
+                .map(paymentMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }
