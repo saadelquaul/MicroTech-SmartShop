@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
@@ -158,5 +159,17 @@ public class OrderService {
         }
 
         orderRepository.save(order);
+    }
+
+    public OrderResponseDto getOrderById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        return orderMapper.toResponse(order);
+    }
+
+    public List<OrderResponseDto> getClientOrders(Long clientId) {
+        return orderRepository.findByClientId(clientId).stream()
+                .map(orderMapper::toResponse)
+                .toList();
     }
 }
