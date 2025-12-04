@@ -1,4 +1,4 @@
-package com.SmartShop.MicroTech_SmartShop.service.impl;
+package com.SmartShop.MicroTech_SmartShop.service;
 
 
 import com.SmartShop.MicroTech_SmartShop.dto.request.LoginRequest;

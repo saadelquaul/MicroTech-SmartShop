@@ -21,6 +21,7 @@ public class ClientMapper {
                 .tier(client.getTier())
                 .totalSpent(client.getTotalSpent())
                 .totalOrders(client.getTotalOrders())
+                .username(client.getUser() == null ? null : client.getUser().getUsername())
                 .build();
     }
 
