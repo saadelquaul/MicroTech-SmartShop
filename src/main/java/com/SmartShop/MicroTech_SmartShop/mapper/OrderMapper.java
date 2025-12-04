@@ -34,6 +34,7 @@ public class OrderMapper {
                 .totalAmount(order.getTotalAmount())
                 .remainingAmount(order.getRemainingAmount())
                 .items(items)
+                .clientId(order.getClient() == null ? null : order.getClient().getId())
                 .build();
     }
 
