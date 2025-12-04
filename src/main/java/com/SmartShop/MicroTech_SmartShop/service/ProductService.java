@@ -38,12 +38,13 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProduct(Long id) {
+    public ProductResponseDto deleteProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         product.setIsDeleted(true);
-        productRepository.save(product);
+
+        return productMapper.toResponse(productRepository.save(product));
 
     }
 
