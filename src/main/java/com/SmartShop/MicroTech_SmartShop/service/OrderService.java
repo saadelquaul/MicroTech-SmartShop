@@ -115,4 +115,29 @@ public class OrderService {
         return orderMapper.toResponse(savedOrder);
     }
 
+    @Transactional
+    public OrderResponseDto confirmOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        if (order.getStatus() != OrderStatus.PENDING) {
+            throw new BusinessException("Only PENDING orders can be confirmed.");
+        }
+
+        if (order.getRemainingAmount().compareTo(BigDecimal.ZERO) > 0) {
+            throw new BusinessException("Cannot confirm: Order is not fully paid. Remaining: " + order.getRemainingAmount());
+        }
+
+        order.setStatus(OrderStatus.CONFIRMED);
+
+        Client client = order.getClient();
+        client.setTotalOrders(client.getTotalOrders() + 1);
+        client.setTotalSpent(client.getTotalSpent().add(order.getTotalAmount()));
+
+        loyaltyService.updateClientTier(client);
+        clientRepository.save(client);
+
+        return orderMapper.toResponse(orderRepository.save(order));
+    }
+
 }
