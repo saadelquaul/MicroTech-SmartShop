@@ -31,7 +31,14 @@ public class PaymentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.recordPayment(dto));
     }
 
-    
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<List<PaymentResponseDto>> getPaymentsByOrder(
+            @PathVariable Long orderId,
+            HttpSession session) {
+        checkLogin(session);
+
+        return ResponseEntity.ok(paymentService.getPaymentsByOrder(orderId));
+    }
 
     private void checkLogin(HttpSession session) {
         if (session.getAttribute("USER_ID") == null) throw new BusinessException("Unauthorized");
