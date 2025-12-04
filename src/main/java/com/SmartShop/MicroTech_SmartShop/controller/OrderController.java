@@ -41,6 +41,25 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponseDto> getOrder(@PathVariable Long id, HttpSession session) {
+        checkLogin(session);
+
+        OrderResponseDto order = orderService.getOrderById(id);
+
+
+        UserRole role = (UserRole) session.getAttribute("USER_ROLE");
+        Long clientId = (Long) session.getAttribute("CLIENT_ID");
+
+        if (role == UserRole.CLIENT) {
+            if (clientId == null || !clientId.equals(order.getClientId())) {
+                throw new BusinessException("Access Denied");
+            }
+        }
+
+        return ResponseEntity.ok(order);
+    }
+
 
     private void checkLogin(HttpSession session) {
         if (session.getAttribute("USER_ID") == null) throw new BusinessException("Unauthorized");
