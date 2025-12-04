@@ -140,4 +140,23 @@ public class OrderService {
         return orderMapper.toResponse(orderRepository.save(order));
     }
 
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        if (order.getStatus() != OrderStatus.PENDING) {
+            throw new BusinessException("Cannot cancel an order that is already " + order.getStatus());
+        }
+
+        order.setStatus(OrderStatus.CANCELED);
+
+        for (OrderItem item : order.getOrderItems()) {
+            Product product = item.getProduct();
+            product.setStockQuantity(product.getStockQuantity() + item.getQuantity());
+            productRepository.save(product);
+        }
+
+        orderRepository.save(order);
+    }
 }
