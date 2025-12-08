@@ -60,11 +60,14 @@ public class PaymentService {
         payment.setAmount(dto.getAmount());
         payment.setMethod(dto.getMethod());
         payment.setPaymentDate(LocalDateTime.now());
+        payment.setReference(dto.getReference());
 
 
         if (dto.getMethod() == PaymentMethod.ESPECES) {
             payment.setStatus(PaymentStatus.ENCAISSE);
             payment.setEncashmentDate(LocalDateTime.now());
+            order.setRemainingAmount(order.getRemainingAmount().subtract(dto.getAmount()));
+            orderRepository.save(order);
         } else {
             payment.setStatus(PaymentStatus.EN_ATTENTE);
         }
@@ -72,13 +75,37 @@ public class PaymentService {
         Payment savedPayment = paymentRepository.save(payment);
 
 
-        order.setRemainingAmount(order.getRemainingAmount().subtract(dto.getAmount()));
-        orderRepository.save(order);
+
 
         return paymentMapper.toResponse(savedPayment);
     }
 
+    @Transactional
+    public PaymentResponseDto confirmPayment(Long id) {
 
+        Payment payment = paymentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Payment not found"));
+        Order order = orderRepository.findById(payment.getOrder().getId()).orElseThrow(()-> new ResourceNotFoundException("Order for the Payment with ref :" + payment.getReference() + " not found"));
+
+        payment.setStatus(PaymentStatus.ENCAISSE);
+        payment.setEncashmentDate(LocalDateTime.now());
+        if (order.getRemainingAmount().compareTo(payment.getAmount()) < 0) throw new BusinessException("Payment amount exceeds the remaining balance.");
+        order.setRemainingAmount(order.getRemainingAmount().subtract(payment.getAmount()));
+
+        orderRepository.save(order);
+        Payment payment1 = paymentRepository.save(payment);
+        return paymentMapper.toResponse(payment1);
+
+    }
+
+    public PaymentResponseDto rejectPayment(Long id) {
+        Payment payment = paymentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Payment not found"));
+        if (payment.getStatus() == PaymentStatus.ENCAISSE) throw new BusinessException("The Payment already ENCAISSE can't be cancelled or rejected");
+
+        payment.setStatus(PaymentStatus.REJETE);
+
+        return paymentMapper.toResponse(paymentRepository.save(payment));
+
+    }
 
     public List<PaymentResponseDto> getPaymentsByOrder(Long orderId) {
         return paymentRepository.findByOrderId(orderId).stream()
