@@ -7,6 +7,7 @@ import com.SmartShop.MicroTech_SmartShop.exception.ResourceNotFoundException;
 import com.SmartShop.MicroTech_SmartShop.mapper.ProductMapper;
 import com.SmartShop.MicroTech_SmartShop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,8 +49,8 @@ public class ProductService {
 
     }
 
-    public List<ProductResponseDto> getAllProducts() {
-        return productRepository.findAll().stream()
+    public List<ProductResponseDto> getAllProducts(Pageable pageable) {
+        return productRepository.findAllIncludingDeleted(pageable).stream()
                 .map(productMapper::toResponse)
                 .collect(Collectors.toList());
     }

@@ -3,8 +3,6 @@ package com.SmartShop.MicroTech_SmartShop.mapper;
 import com.SmartShop.MicroTech_SmartShop.dto.request.ProductRequestDto;
 import com.SmartShop.MicroTech_SmartShop.dto.response.ProductResponseDto;
 import com.SmartShop.MicroTech_SmartShop.entity.Product;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -40,6 +40,20 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.getPaymentsByOrder(orderId));
     }
 
+    @PutMapping("/confirm/{paymentId}")
+    public ResponseEntity<PaymentResponseDto> confirmPayment(@PathVariable Long paymentId, HttpSession session)
+    {
+        checkAdmin(session);
+        return ResponseEntity.ok(paymentService.confirmPayment(paymentId));
+    }
+
+    @PutMapping("/reject/{paymentId}")
+    public ResponseEntity<PaymentResponseDto> rejectPayment(@PathVariable Long paymentId, HttpSession session)
+    {
+        checkAdmin(session);
+        return ResponseEntity.ok(paymentService.rejectPayment(paymentId));
+    }
+
     private void checkLogin(HttpSession session) {
         if (session.getAttribute("USER_ID") == null) throw new BusinessException("Unauthorized");
     }
