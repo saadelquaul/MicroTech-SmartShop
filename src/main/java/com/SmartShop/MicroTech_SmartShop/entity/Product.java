@@ -3,8 +3,6 @@ package com.SmartShop.MicroTech_SmartShop.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Where;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -13,7 +11,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Where(clause = "is_deleted = false")
 public class Product {
 
     @Id
