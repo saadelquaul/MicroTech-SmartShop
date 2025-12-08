@@ -18,6 +18,7 @@ public class OrderResponseDto {
     private Long id;
     private LocalDateTime dateCreation;
     private String clientName;
+    private Long clientId;
     private OrderStatus status;
     private BigDecimal subTotal;
     private BigDecimal discountAmount;
